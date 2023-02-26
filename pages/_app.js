@@ -63,7 +63,7 @@ export default function App({ Component, pageProps }) {
     </Link>
 
     <Link href="/dashboard" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">
-      Dashboard
+      Dashboard ali
     </Link>
     </div>
   </div>
