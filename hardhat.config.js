@@ -7,10 +7,10 @@ module.exports = {
       chainId: 1337
     },
 //  unused configuration commented out for now
-//  mumbai: {
-//    url: "https://rpc-mumbai.maticvigil.com",
-//    accounts: [process.env.privateKey]
-//  }
+ ganach: {
+   url: "HTTP://127.0.0.1:7545",
+   accounts: ['1e1b2d15d63ac21635ca3f87fcc76c95a9ff965bcf8275be029a59a125d535e3']
+ }
   },
   solidity: {
     version: "0.8.17",
