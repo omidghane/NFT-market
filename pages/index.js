@@ -13,19 +13,21 @@ export default function Home(){
     { name: "NFT 3", description: "This is the third NFT", price: "0.3", image: "https://i.ibb.co/x2dnR6b/nft-image-3.png" },
   ])
   const [loadingState, setLoadingState] = useState('not-loaded')
-  // useEffect(()=>{
-  //   loadNFTs();
-  // }, [])
+  useEffect(()=>{
+    loadNFTs();
+  }, [])
 
   async function loadNFTs(){
-    const provider = new ethers.providers.JsonRpcProvider()
+    const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:7545')
     const contract = new ethers.Contract(marketplaceAddress,NFTMarketplace.abi , provider);
     const data = await contract.fetchMarketItems();
 
     const items = await Promise.all(data.map(async (i)=>{
       const tokenUri = await contract.tokenURI(i.tokenId);
       const meta = await axios.get(tokenUri);
-      let price = ethers.utils.formatUnits(i.price.toStirng(), 'ether')
+    
+      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+
       let item = {
         price,
         tokenId: i.tokenId.toNumber(),
