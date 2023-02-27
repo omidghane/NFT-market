@@ -1,7 +1,7 @@
 # NFT Market
 This is a decentralized NFT (Non-Fungible Token) marketplace built on Ethereum. Users can create, buy, and sell NFTs on this platform.
 
-Getting Started
+# Getting Started
 To get started, you'll need to do the following:
 
 Clone this repository to your local machine.
