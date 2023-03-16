@@ -29,36 +29,54 @@ export default function ResellNFT(){
         const connection = await web3Modal.connect()
         const provider = new ethers.providers.Web3Provider(connection);
         const signer = provider.getSigner()
-
-        const priceFormatting = ethers.utils.formatUnits(formInput.price , 'ether')
+        
+        const priceFormatting = ethers.utils.parseUnits(formInput.price, 'ether')
+        
         let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi , signer)
         let listingPrice = await contract.getListingPrice();
         listingPrice = listingPrice.toString()
-
+         console.log(priceFormatting);
         let transaction = await contract.resellToken(id , priceFormatting , { value: listingPrice })
         await transaction.wait()
 
         router.push('/');
     }
-
+      //d
     return (
-        <div className="flex justify-center">
-          <div className="w-1/2 flex flex-col pb-12">
-            <input
-              placeholder="Asset Price in Eth"
-              className="mt-2 border rounded p-4"
-              onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
-            />
-            {
-              image && (
-                <img className="rounded mt-4" width="350" src={image} />
-              )
-            }
-            <button onClick={listNFTForSale} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-              List NFT
-            </button>
-          </div>
-        </div>
+        // <div className="flex justify-center">
+        //   <div className="w-1/2 flex flex-col pb-12">
+        //     <input
+        //       placeholder="Asset Price in Eth"
+        //       className="mt-2 border rounded p-4"
+        //       onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+        //     />
+        //     {
+        //       image && (
+        //         <img className="rounded mt-4" width="350" src={image} />
+        //       )
+        //     }
+        //     <button onClick={listNFTForSale} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+        //       List NFT
+        //     </button>
+        //   </div>
+        // </div>
+        
+        <div class="flex justify-center bg-gray-900 h-screen">
+  <div class="w-full md:w-1/2 flex flex-col pb-12">
+    <img class="rounded mt-4 mx-auto max-w-xs " src={image} alt="Asset" />
+    <input
+      placeholder="Asset Price in Eth"
+      class="mt-4 block w-full self-center sm:w-1/5 lg:w-5/12 py-2 px-3 border rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+      onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+    />
+
+    <button onClick={listNFTForSale} class="w-full md:w-auto mt-4 font-bold bg-pink-500 text-white rounded p-4 shadow-lg hover:bg-pink-600 transition-all">
+      List NFT
+    </button>
+  </div>
+</div>
+
+
       )
     
 }
