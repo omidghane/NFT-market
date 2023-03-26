@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Web3Modal from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { ethers } from 'ethers';
-
+var Wallet = 'aliapg';
 const ConnectWallet = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const [provider, setProvider] = useState(null);
@@ -28,9 +28,12 @@ const ConnectWallet = () => {
       const address = await signer.getAddress();
       localStorage.setItem('walletAddress', address);
       setWalletAddress(address);
+      Wallet = address;
     } catch (error) {
       console.error(error);
     }
+
+    
   }
 
   const handleDisconnectWallet = () => {
@@ -43,12 +46,13 @@ const ConnectWallet = () => {
       {walletAddress ? (
         <div className="flex flex-row items-center ">
           {/* <p className="text-gray-700">Connected wallet address:</p> */}
-          <p className="text-green-600 font-medium">{walletAddress}</p>
+          {/* <p className="text-green-600 font-medium">{walletAddress}</p> */}
           <button 
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+            className="bg-purple-600 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded "
             onClick={handleDisconnectWallet}
           >
-            Disconnect Wallet
+            {/* Disconnect Wallet */}
+            <p>{walletAddress}</p>
           </button>
         </div>
       ) : (
@@ -63,7 +67,7 @@ const ConnectWallet = () => {
   );
 }
 
-export default ConnectWallet;
-
+export default ConnectWallet ;
+export {Wallet};
 
 
