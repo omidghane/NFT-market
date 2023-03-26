@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image';
 import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import RegisterPage from './register';
 import ConnectWallet from './connectWalet';
@@ -27,10 +28,11 @@ export default function App({ Component, pageProps }) {
       </div>
     </nav> */}
     <nav className="bg-gray-800">
-  <div className="mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="flex items-center justify-between h-16">
+  <div className="mx-1 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-between h-16 mx-auto">
       <div className="flex items-center">
-        <a href="#" className="flex-shrink-0 text-red-600 text-3xl">
+        <img width={55} height={55} src="https://i.ibb.co/1byZNrV/logo-removebg-preview.png" className='rounded-full ' />
+        <a href="#" className="ml-1 flex-shrink-0 text-red-600 text-3xl">
           Market Game
         </a>
         
@@ -43,7 +45,7 @@ export default function App({ Component, pageProps }) {
             <Link href="/my-nfts" className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">My NFTs</Link>
             <Link href="/dashboard" className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Dashboard</Link>
             <Link href="/register" className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Login/Register</Link>
-            <Link href="#" className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"><ConnectWallet /> </Link>
+            <Link href="#" className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 "><ConnectWallet /> </Link>
           </div>
         </div>
       </div>
