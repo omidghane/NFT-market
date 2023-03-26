@@ -138,12 +138,7 @@ export default function Home(){
                   >
                     Buy
                   </button>
-                  <button
-                    className="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg transition duration-500 overflow-hidden transform hover:-translate-y-1 hover:scale-110"
-                    onClick={() => loadNFTs()}
-                  >
-                    loead
-                  </button>
+                  
                 </div>
               </div>
             </div>
