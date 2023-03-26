@@ -45,7 +45,7 @@ export default function CreatorDashboard() {
     setNfts(items)
     setLoadingState('loaded') 
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<><h1 className="py-10 px-20 text-3xl bg-gray-900 text-white">No NFTs listed</h1>  </>)
+  if (loadingState === 'loaded' && !nfts.length) return (<><h1 className="py-96 px-20 text-3xl bg-gray-900 text-white">No NFTs listed</h1>  </>)
   return (
     // <div>
     //   <div className="p-4">
@@ -67,7 +67,7 @@ export default function CreatorDashboard() {
 
     <div className="bg-gray-900 text-white">
   <div className="container mx-auto px-4 py-8">
-    <h1 className="text-3xl font-bold">داشبورد</h1>
+    <h1 className="text-3xl font-bold">Dashboard</h1>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-8">
       {nfts.map((nft, i) => (
         <div key={i} className="bg-gray-700 rounded-xl overflow-hidden">
