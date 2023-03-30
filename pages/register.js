@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Web3Modal from 'web3modal'
 import axios from 'axios'
 import {Wallet} from './connectWalet'
+import Link from 'next/link';
 const localApi2 = axios.create({
   baseURL: 'http://localhost:2000/'
 });
@@ -11,6 +12,7 @@ const RegisterPage = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [wallet, setWallet] = useState('')
   // add more fields as needed
 
@@ -116,7 +118,7 @@ const RegisterPage = () => {
                     </a>
                 </div>
                 <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
-                    <form>
+                    <form onSubmit={handleSubmit} >
                         <div>
                             <label
                                 htmlFor="name"
@@ -131,6 +133,7 @@ const RegisterPage = () => {
                                     value={username}
                                     onChange={(event) => setUsername(event.target.value)}
                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    
                                 />
                             </div>
                         </div>
@@ -145,6 +148,8 @@ const RegisterPage = () => {
                                 <input
                                     type="email"
                                     name="email"
+                                    value={email}
+                                    onChange={(event) => setEmail(event.target.value)}
                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
@@ -160,6 +165,8 @@ const RegisterPage = () => {
                                 <input
                                     type="password"
                                     name="password"
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}
                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
@@ -175,6 +182,8 @@ const RegisterPage = () => {
                                 <input
                                     type="password"
                                     name="password_confirmation"
+                                    value={confirmPassword}
+                                    onChange={setConfirmPassword}
                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
@@ -194,9 +203,9 @@ const RegisterPage = () => {
                     <div className="mt-4 text-grey-600">
                         Already have an account?{" "}
                         <span>
-                            <a className="text-purple-600 hover:underline" href="#">
+                            <Link className="text-purple-600 hover:underline" href="/login">
                                 Log in
-                            </a>
+                            </Link>
                         </span>
                     </div>
                     <div className="flex items-center w-full my-4">
