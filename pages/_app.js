@@ -27,13 +27,13 @@ export default function App({ Component, pageProps }) {
         </Link>
       </div>
     </nav> */}
-    <nav className="bg-gray-800">
+    <nav className="bg-gray-800 py-20">
   <div className="mx-1 px-4 sm:px-6 lg:px-8">
     <div className="flex items-center justify-between h-16 mx-auto">
       <div className="flex items-center">
-        <img width={55} height={55} src="https://i.ibb.co/1byZNrV/logo-removebg-preview.png" className='rounded-full ' />
+        <img width={400} height={55} src="https://i.ibb.co/GpQ6fzY/Capture-removebg-preview-removebg-preview-1.png" className='rounded-full ' />
         <a href="#" className="ml-1 flex-shrink-0 text-red-600 text-3xl">
-          Market Game
+          {/* Market Game */}
         </a>
         
         <div className="hidden md:block">
