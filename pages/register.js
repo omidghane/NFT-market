@@ -34,11 +34,26 @@ const RegisterPage = () => {
       console.error(error);
     }
   }
+  const isValidEmail = (email) => {
+    // Regex pattern for valid email address
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
 
   const handleSubmit =async (event) => {
     event.preventDefault()
     userId.id ++;
     await connectWallet();
+    
+    if(confirmPassword === password && isValidEmail(email)){
+        console.log("password is ok");
+        console.log({
+            userId,
+            username,
+            email,
+            password,
+        });
+    }
     // handle form submission
     console.log(userId , Wallet);
     localApi2.post('/register',{
@@ -181,9 +196,9 @@ const RegisterPage = () => {
                             <div className="flex flex-col items-start">
                                 <input
                                     type="password"
-                                    name="password_confirmation"
+                                    // name="password_confirmation"
                                     value={confirmPassword}
-                                    onChange={setConfirmPassword}
+                                    onChange={(event) => setConfirmPassword(event.target.value)}
                                     className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
