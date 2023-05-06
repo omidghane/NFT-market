@@ -41,40 +41,22 @@ export default function ResellNFT(){
 
         router.push('/');
     }
-      //d
+      
     return (
-        // <div className="flex justify-center">
-        //   <div className="w-1/2 flex flex-col pb-12">
-        //     <input
-        //       placeholder="Asset Price in Eth"
-        //       className="mt-2 border rounded p-4"
-        //       onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
-        //     />
-        //     {
-        //       image && (
-        //         <img className="rounded mt-4" width="350" src={image} />
-        //       )
-        //     }
-        //     <button onClick={listNFTForSale} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-        //       List NFT
-        //     </button>
-        //   </div>
-        // </div>
-        
         <div class="flex justify-center items-center bg-gray-900 h-screen border-4">
-  <div class="w-full md:w-1/2 flex flex-col pb-12 justify-center items-center">
-    <img class="rounded mt-4 mx-auto max-w-xs " src={image} alt="Asset" />
-    <input
-      placeholder="Asset Price in Eth"
-      class="mt-4 block w-full self-center sm:w-1/5 lg:w-5/12 py-2 px-3 border rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
-      onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
-    />
+          <div class="w-full md:w-1/2 flex flex-col pb-12 justify-center items-center">
+            <img class="rounded mt-4 mx-auto max-w-xs " src={image} alt="Asset" />
+            <input
+              placeholder="Asset Price in Eth"
+              class="mt-4 block w-full self-center sm:w-1/5 lg:w-5/12 py-2 px-3 border rounded-md shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+              onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+            />
 
-    <button onClick={listNFTForSale} class="w-full md:w-24 mt-4 font-bold bg-pink-500 text-white rounded p-4 shadow-lg hover:bg-pink-600 transition-all mx-auto">
-      List NFT
-    </button>
-  </div>
-</div>
+            <button onClick={listNFTForSale} class="w-full md:w-24 mt-4 font-bold bg-pink-500 text-white rounded p-4 shadow-lg hover:bg-pink-600 transition-all mx-auto">
+              List NFT
+            </button>
+          </div>
+        </div>
 
 
       )
