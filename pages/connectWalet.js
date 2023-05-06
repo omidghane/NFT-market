@@ -45,8 +45,7 @@ const ConnectWallet = () => {
     <div className="flex flex-col items-center justify-center space-y-4 bg-gray-900">
       {walletAddress ? (
         <div className="flex flex-row items-center ">
-          {/* <p className="text-gray-700">Connected wallet address:</p> */}
-          {/* <p className="text-green-600 font-medium">{walletAddress}</p> */}
+          
           <button 
             className="bg-purple-600 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded "
             onClick={handleDisconnectWallet}
