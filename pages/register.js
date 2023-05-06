@@ -73,57 +73,7 @@ const RegisterPage = () => {
   }
 
   return (
-    // <div className="flex justify-center items-center h-screen bg-gray-900">
-    //   <form onSubmit={handleSubmit} className="bg-purple-600 shadow-md rounded px-16 pt-6 pb-8 mb-4">
-    //     <h1 className="text-2xl font-bold mb-4">Register</h1>
-    //     <div className="mb-4">
-    //       <label className="block text-gray-700 font-bold mb-2" htmlFor="username">
-    //         Username
-    //       </label>
-    //       <input
-    //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //         id="username"
-    //         type="text"
-    //         value={username}
-    //         onChange={(event) => setUsername(event.target.value)}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
-    //         Email
-    //       </label>
-    //       <input
-    //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //         id="email"
-    //         type="email"
-    //         value={email}
-    //         onChange={(event) => setEmail(event.target.value)}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <label className="block text-gray-700 font-bold mb-2" htmlFor="password">
-    //         Password
-    //       </label>
-    //       <input
-    //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //         id="password"
-    //         type="password"
-    //         value={password}
-    //         onChange={(event) => setPassword(event.target.value)}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <button
-    //         type="submit"
-    //         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    //       >
-    //         Register
-    //       </button>
-    //       <h1>wsqew{Wallet}</h1>
-    //     </div>
-    //   </form>
-    // </div>
-    <div>
+      <div>
             <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-900">
                 <div>
                     <a href="/">
