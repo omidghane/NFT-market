@@ -64,23 +64,7 @@ const Login = () => {
                                     />
                                 </div>
                             </div>
-                            {/* <div className="mt-4">
-                                <label
-                                    htmlFor="password_confirmation"
-                                    className="block text-sm font-medium text-gray-700 undefined"
-                                >
-                                    Confirm Password
-                                </label>
-                                <div className="flex flex-col items-start">
-                                    <input
-                                        type="password"
-                                        name="password_confirmation"
-                                        // value={confirmPassword}
-                                        // onChange={setConfirmPassword}
-                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    />
-                                </div>
-                            </div> */}
+                           
                             <a
                                 href="#"
                                 className="text-xs text-purple-600 hover:underline"
