@@ -2,8 +2,8 @@ import { useState } from "react";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import axios from "axios";
-import { Wallet } from "./connectWalet";
 import Link from "next/link";
+
 const localApi2 = axios.create({
   baseURL: "http://localhost:2000/",
 });
