@@ -18,7 +18,7 @@ let games = {};
 io.on('connection', (socket) => {
   console.log('a user connected');
 
-  socket.on('join-game', (gameId) => {
+  socket.on('join-game', (gameId) => { 
     if (!games[gameId]) {
       // create a new game if it does not exist
       games[gameId] = { players: [socket], board: new Array(9).fill(''), turn: 0 };
@@ -52,15 +52,17 @@ io.on('connection', (socket) => {
   // game.board[0] != ''
   socket.on('disconnect', () => {
     console.log('user disconnected');
+    
     // remove the game from the list of games if no players are left
     Object.keys(games).forEach((gameId) => {
+
       if (games[gameId].players.includes(socket)) {
         games[gameId].players = games[gameId].players.filter((player) => player !== socket); 
-        if (games[gameId].players.length === 0) { 
+        if (games[gameId].players.length === 0) {   
           delete games[gameId];  
-        } else if ((games[gameId].players.length === 1) || (games[gameId].board[0] != '' && games[gameId].board[1] != ''&& games[gameId].board[2] != ''&& games[gameId].board[3] != ''&& games[gameId].board[4] != ''&& games[gameId].board[5] != ''&& games[gameId].board[6] != ''&& games[gameId].board[7] != ''&& games[gameId].board[8] != '')) { 
+        } else if (games[gameId].players.length === 1) { 
           games[gameId].board = new Array(9).fill('');
-          io.to(gameId).emit('opponent-disconnected');
+          io.to(gameId).emit('opponent-disconnected'); 
         }
       }
     });

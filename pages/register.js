@@ -1,267 +1,247 @@
-import { useState } from 'react'
-import Web3Modal from 'web3modal'
-import axios from 'axios'
-import {Wallet} from './connectWalet'
-import Link from 'next/link';
+import { useState } from "react";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+import axios from "axios";
+import { Wallet } from "./connectWalet";
+import Link from "next/link";
 const localApi2 = axios.create({
-  baseURL: 'http://localhost:2000/'
+  baseURL: "http://localhost:2000/",
 });
 
 const RegisterPage = () => {
-  const [userId, setUserId] = useState({id: 0 })
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [wallet, setWallet] = useState('')
+  const [userId, setUserId] = useState({ id: 0 });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [wallet, setWallet] = useState("");
+  const [error, setError] = useState("");
+
   // add more fields as needed
 
   const connectWallet = async () => {
-    
     try {
       const web3Modal = new Web3Modal();
       const selectedProvider = await web3Modal.connect();
-      setProvider(selectedProvider);
+      //   setProvider(selectedProvider);
 
-      const ethersProvider = new ethers.providers.Web3Provider(selectedProvider);
+      const ethersProvider = new ethers.providers.Web3Provider(
+        selectedProvider
+      );
       const signer = ethersProvider.getSigner();
       const address = await signer.getAddress();
-      const ww = localStorage.setItem('walletAddress', address);
-      userId.id ++;
-      console.log(ww);
-      setWallet(address)
+      userId.id++;
+      setWallet(address);
     } catch (error) {
       console.error(error);
+
+      return false;
     }
-  }
+    return true;
+  };
   const isValidEmail = (email) => {
     // Regex pattern for valid email address
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  const handleSubmit =async (event) => {
-    event.preventDefault()
-    userId.id ++;
-    await connectWallet();
-    
-    if(confirmPassword === password && isValidEmail(email)){
-        console.log("password is ok");
-        console.log({
-            userId,
-            username,
-            email,
-            password,
-        });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let result;
+    const isConnectWallet = await connectWallet();
+    if (isConnectWallet == false) {
+      setError("Failed to connect wallet. Please try again.");
+      return;
     }
+    // if (isValidEmail == false) {
+    //     setError('Your email is invalid. Please try again.');
+    // }
+    // if (confirmPassword != password) {
+    //     setError('Failed to connect wallet. Please try again.');
+    // }
+    if (
+      confirmPassword === password &&
+      isValidEmail(email) &&
+      isConnectWallet &&
+      username != ""
+    ) {
+      console.log("password is ok");
+      console.log({
+        userId,
+        username,
+        email,
+        password,
+        wallet,
+      });
+      await localApi2
+        .post("/register", {
+          userId,
+          username,
+          email,
+          password,
+          wallet,
+        })
+        .then((response) => {
+          console.log(response.data);
+          result = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+        console.log(result);
+        if(result.status == 'ok'){
+          alert("Success");
+          setError('');
+        } else{
+          setError(result.error);
+        }
+    } else {
+      setError("Invalid form data. Please check your inputs."); // Set the error message
+    }
+    // console.log(userId , Wallet);
     // handle form submission
-    console.log(userId , Wallet);
-    localApi2.post('/register',{
-      userId,
-      username,
-      email,
-      password,
-    })
-    .then(response => {
-      console.log(response.data);
-      setData(response.data);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-    
-  }
+  };
 
   return (
-    // <div className="flex justify-center items-center h-screen bg-gray-900">
-    //   <form onSubmit={handleSubmit} className="bg-purple-600 shadow-md rounded px-16 pt-6 pb-8 mb-4">
-    //     <h1 className="text-2xl font-bold mb-4">Register</h1>
-    //     <div className="mb-4">
-    //       <label className="block text-gray-700 font-bold mb-2" htmlFor="username">
-    //         Username
-    //       </label>
-    //       <input
-    //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //         id="username"
-    //         type="text"
-    //         value={username}
-    //         onChange={(event) => setUsername(event.target.value)}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
-    //         Email
-    //       </label>
-    //       <input
-    //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //         id="email"
-    //         type="email"
-    //         value={email}
-    //         onChange={(event) => setEmail(event.target.value)}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <label className="block text-gray-700 font-bold mb-2" htmlFor="password">
-    //         Password
-    //       </label>
-    //       <input
-    //         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //         id="password"
-    //         type="password"
-    //         value={password}
-    //         onChange={(event) => setPassword(event.target.value)}
-    //       />
-    //     </div>
-    //     <div className="mb-4">
-    //       <button
-    //         type="submit"
-    //         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    //       >
-    //         Register
-    //       </button>
-    //       <h1>wsqew{Wallet}</h1>
-    //     </div>
-    //   </form>
-    // </div>
     <div>
-            <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-900">
-                <div>
-                    <a href="/">
-                        <h3 className="text-4xl font-bold text-purple-600">
-                        <img width={55} height={55} src="https://i.ibb.co/1byZNrV/logo-removebg-preview.png" className='rounded-full ' />
-                        </h3>
-                    </a>
-                </div>
-                <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
-                    <form onSubmit={handleSubmit} >
-                        <div>
-                            <label
-                                htmlFor="name"
-                                className="block text-sm font-medium text-gray-700 undefined"
-                            >
-                                User Name
-                            </label>
-                            <div className="flex flex-col items-start">
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={username}
-                                    onChange={(event) => setUsername(event.target.value)}
-                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-4">
-                            <label
-                                htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 undefined"
-                            >
-                                Email
-                            </label>
-                            <div className="flex flex-col items-start">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={email}
-                                    onChange={(event) => setEmail(event.target.value)}
-                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-4">
-                            <label
-                                htmlFor="password"
-                                className="block text-sm font-medium text-gray-700 undefined"
-                            >
-                                Password
-                            </label>
-                            <div className="flex flex-col items-start">
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={password}
-                                    onChange={(event) => setPassword(event.target.value)}
-                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-4">
-                            <label
-                                htmlFor="password_confirmation"
-                                className="block text-sm font-medium text-gray-700 undefined"
-                            >
-                                Confirm Password
-                            </label>
-                            <div className="flex flex-col items-start">
-                                <input
-                                    type="password"
-                                    // name="password_confirmation"
-                                    value={confirmPassword}
-                                    onChange={(event) => setConfirmPassword(event.target.value)}
-                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                />
-                            </div>
-                        </div>
-                        <a
-                            href="#"
-                            className="text-xs text-purple-600 hover:underline"
-                        >
-                            Forget Password?
-                        </a>
-                        <div className="flex items-center mt-4">
-                            <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
-                                Register
-                            </button>
-                        </div>
-                    </form>
-                    <div className="mt-4 text-grey-600">
-                        Already have an account?{" "}
-                        <span>
-                            <Link className="text-purple-600 hover:underline" href="/login">
-                                Log in
-                            </Link>
-                        </span>
-                    </div>
-                    <div className="flex items-center w-full my-4">
-                        <hr className="w-full" />
-                        <p className="px-3 ">OR</p>
-                        <hr className="w-full" />
-                    </div>
-                    <div className="my-6 space-y-2">
-                        <button
-                            aria-label="Login with Google"
-                            type="button"
-                            className="flex items-center justify-center w-full p-2 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 32 32"
-                                className="w-5 h-5 fill-current"
-                            >
-                                <path d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"></path>
-                            </svg>
-                            <p>Login with Google</p>
-                        </button>
-                        <button
-                            aria-label="Login with GitHub"
-                            role="button"
-                            className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 32 32"
-                                className="w-5 h-5 fill-current"
-                            >
-                                <path d="M16 0.396c-8.839 0-16 7.167-16 16 0 7.073 4.584 13.068 10.937 15.183 0.803 0.151 1.093-0.344 1.093-0.772 0-0.38-0.009-1.385-0.015-2.719-4.453 0.964-5.391-2.151-5.391-2.151-0.729-1.844-1.781-2.339-1.781-2.339-1.448-0.989 0.115-0.968 0.115-0.968 1.604 0.109 2.448 1.645 2.448 1.645 1.427 2.448 3.744 1.74 4.661 1.328 0.14-1.031 0.557-1.74 1.011-2.135-3.552-0.401-7.287-1.776-7.287-7.907 0-1.751 0.62-3.177 1.645-4.297-0.177-0.401-0.719-2.031 0.141-4.235 0 0 1.339-0.427 4.4 1.641 1.281-0.355 2.641-0.532 4-0.541 1.36 0.009 2.719 0.187 4 0.541 3.043-2.068 4.381-1.641 4.381-1.641 0.859 2.204 0.317 3.833 0.161 4.235 1.015 1.12 1.635 2.547 1.635 4.297 0 6.145-3.74 7.5-7.296 7.891 0.556 0.479 1.077 1.464 1.077 2.959 0 2.14-0.020 3.864-0.020 4.385 0 0.416 0.28 0.916 1.104 0.755 6.4-2.093 10.979-8.093 10.979-15.156 0-8.833-7.161-16-16-16z"></path>
-                            </svg>
-                            <p>Login with GitHub</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
+      <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-900">
+        <div>
+          <a href="/">
+            <h3 className="text-4xl font-bold text-purple-600">
+              {/* <img width={55} height={55} src="https://i.ibb.co/1byZNrV/logo-removebg-preview.png" className='rounded-full ' />
+               */}
+              APG Market
+            </h3>
+          </a>
         </div>
-  )
-}
+        <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
+          
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-bold text-gray-700 undefined"
+              >
+                User Name
+              </label>
+              <div className="flex flex-col items-start">
+                <input
+                  type="text"
+                  name="name"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  className="block w-full mt-1 pl-2 border-2 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-bold text-gray-700 undefined"
+              >
+                Email
+              </label>
+              <div className="flex flex-col items-start">
+                <input
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="block w-full mt-1 pl-2 border-2 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-bold  text-gray-700 undefined"
+              >
+                Password
+              </label>
+              <div className="flex flex-col items-start">
+                <input
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="block w-full mt-1 pl-2 border-2 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label
+                htmlFor="password_confirmation"
+                className="block text-sm font-bold text-gray-700 undefined "
+              >
+                Confirm Password
+              </label>
+              <div className="flex flex-col items-start">
+                <input
+                  type="password"
+                  // name="password_confirmation"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  className="block w-full mt-1 pl-2 border-2 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+            </div>
+            <a href="#" className="text-xs font-bold text-purple-600 hover:underline">
+              Forget Password?
+            </a>
+            {error && <div className="text-red-500 mt-4">{error}</div>}
+            <div className="flex items-center mt-4">
+              <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                Register
+              </button>
+            </div>
+          </form>
+          <div className="mt-4 text-grey-600">
+            Already have an account?{" "}
+            <span>
+              <Link className="text-purple-600 font-bold hover:underline" href="/login">
+                Log in
+              </Link>
+            </span>
+          </div>
+          <div className="flex items-center w-full my-4">
+            <hr className="w-full" />
+            <p className="px-3 ">OR</p>
+            <hr className="w-full" />
+          </div>
+          <div className="my-6 space-y-2">
+            <button
+              aria-label="Login with Google"
+              type="button"
+              className="flex items-center justify-center w-full p-2 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                className="w-5 h-5 fill-current"
+              >
+                <path d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"></path>
+              </svg>
+              <p>Login with Google</p>
+            </button>
+            <button
+              aria-label="Login with GitHub"
+              role="button"
+              className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-400 focus:ring-violet-400"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                className="w-5 h-5 fill-current"
+              >
+                <path d="M16 0.396c-8.839 0-16 7.167-16 16 0 7.073 4.584 13.068 10.937 15.183 0.803 0.151 1.093-0.344 1.093-0.772 0-0.38-0.009-1.385-0.015-2.719-4.453 0.964-5.391-2.151-5.391-2.151-0.729-1.844-1.781-2.339-1.781-2.339-1.448-0.989 0.115-0.968 0.115-0.968 1.604 0.109 2.448 1.645 2.448 1.645 1.427 2.448 3.744 1.74 4.661 1.328 0.14-1.031 0.557-1.74 1.011-2.135-3.552-0.401-7.287-1.776-7.287-7.907 0-1.751 0.62-3.177 1.645-4.297-0.177-0.401-0.719-2.031 0.141-4.235 0 0 1.339-0.427 4.4 1.641 1.281-0.355 2.641-0.532 4-0.541 1.36 0.009 2.719 0.187 4 0.541 3.043-2.068 4.381-1.641 4.381-1.641 0.859 2.204 0.317 3.833 0.161 4.235 1.015 1.12 1.635 2.547 1.635 4.297 0 6.145-3.74 7.5-7.296 7.891 0.556 0.479 1.077 1.464 1.077 2.959 0 2.14-0.020 3.864-0.020 4.385 0 0.416 0.28 0.916 1.104 0.755 6.4-2.093 10.979-8.093 10.979-15.156 0-8.833-7.161-16-16-16z"></path>
+              </svg>
+              <p>Login with GitHub</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

@@ -27,18 +27,18 @@ export default function App({ Component, pageProps }) {
         </Link>
       </div>
     </nav> */}
-    <nav className="bg-gray-800 py-20">
+    <nav className="bg-gray-800 py-20 ">
   <div className="mx-1 px-4 sm:px-6 lg:px-8">
     <div className="flex items-center justify-between h-16 mx-auto">
       <div className="flex items-center">
-        <img width={400} height={55} src="https://i.ibb.co/GpQ6fzY/Capture-removebg-preview-removebg-preview-1.png" className='rounded-full ' />
-        <a href="#" className="ml-1 flex-shrink-0 text-red-600 text-3xl">
-          {/* Market Game */}
+        {/* <img width={400} height={55} src="https://i.ibb.co/GpQ6fzY/Capture-removebg-preview-removebg-preview-1.png" className='rounded-full ' /> */}
+        <a href="#" className="ml-1 flex-shrink-0 text-purple-600 text-3xl">
+          APG Market 
         </a>
         
         <div className="hidden md:block">
           <div className="ml-10 flex items-baseline">
-            <Link href="/" className="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Home</Link>
+            <Link href="/" className="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none  focus:bg-gray-700">Home</Link>
 
             <Link href="/create_nft" className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Sell NFT</Link>
 
@@ -93,7 +93,7 @@ export default function App({ Component, pageProps }) {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-xl font-bold">OGAP Company</p>
+            <p className="text-xl font-bold">Ali PashmGaran</p>
           </div>
           <div className="flex items-center">
             <a href="https://github.com/aliapg2019" target="_blank" rel="noopener noreferrer" className="mx-3 hover:text-gray-400">

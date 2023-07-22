@@ -126,10 +126,7 @@ export default function Home(){
                 </div>
               </div>
               <div className="bg-gray-900 shadow-lg rounded-lg overflow-hidden mt-2">
-                {/* <div className="px-4 py-3">
-                  <h3 className="text-lg font-semibold text-gray-100">{nft.name}</h3>
-                  <p className="h-24 text-gray-400 overflow-hidden">{nft.description}</p>
-                </div> */}
+                
                 <div className="bg-gray-800 px-4 py-3 flex items-center justify-between">
                   <p className="text-gray-400">{nft.price} ETH</p>
                   <button

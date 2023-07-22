@@ -7,7 +7,7 @@ function TicTacToe() {
   const [board, setBoard] = useState(new Array(9).fill('')); // represents the Tic Tac Toe board
   const [turn, setTurn] = useState(0);
   const [gameId, setGameId] = useState('');
-  const [connected, setConnected] = useState(false);
+  const [connected, setConnected] = useState(true);
   const [opponentDisconnected, setOpponentDisconnected] = useState(false);
   const [gameFull, setGameFull] = useState(false);
 
@@ -80,7 +80,7 @@ function TicTacToe() {
         </div>
       )}
       {gameFull && <div>The game is full</div>}
-      {opponentDisconnected && (
+      {(board[0] != '' && board[1] != ''&& board[2] != ''&& board[3] != ''&& board[4] != ''&& board[5] != ''&& board[6] != ''&& board[7] != ''&& board[8] != '') && (
         <div>
           Your opponent has disconnected{' '}
           <button className="border border-indigo-500 rounded px-2 py-1 ml-2" onClick={resetGame}>
@@ -90,7 +90,7 @@ function TicTacToe() {
       )}
       {connected && gameId && (
         <>
-          <div className="board grid grid-cols-3 gap-4">
+          <div className="board grid grid-cols-3 gap-4"> 
             {board.map((cell, index) => (
               <div
                 key={index}

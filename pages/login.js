@@ -13,23 +13,7 @@ const Login = () => {
                     </div>
                     <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
                         <form>
-                            {/* <div>
-                                <label
-                                    htmlFor="name"
-                                    className="block text-sm font-medium text-gray-700 undefined"
-                                >
-                                    User Name
-                                </label>
-                                <div className="flex flex-col items-start">
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        // value={username}
-                                        // onChange={(event) => setUsername(event.target.value)}
-                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    />
-                                </div>
-                            </div> */}
+                            
                             <div className="mt-4">
                                 <label
                                     htmlFor="email"
@@ -64,23 +48,7 @@ const Login = () => {
                                     />
                                 </div>
                             </div>
-                            {/* <div className="mt-4">
-                                <label
-                                    htmlFor="password_confirmation"
-                                    className="block text-sm font-medium text-gray-700 undefined"
-                                >
-                                    Confirm Password
-                                </label>
-                                <div className="flex flex-col items-start">
-                                    <input
-                                        type="password"
-                                        name="password_confirmation"
-                                        // value={confirmPassword}
-                                        // onChange={setConfirmPassword}
-                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    />
-                                </div>
-                            </div> */}
+                            
                             <a
                                 href="#"
                                 className="text-xs text-purple-600 hover:underline"
