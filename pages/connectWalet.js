@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
-var Wallet = "aliapg";
+
 const ConnectWallet = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [provider, setProvider] = useState(null);
@@ -69,4 +69,4 @@ const ConnectWallet = () => {
 };
 
 export default ConnectWallet;
-export { Wallet };
+
