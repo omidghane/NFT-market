@@ -83,7 +83,7 @@ app.post("/register", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    res.json({
       status: 'error',
       error: "An error occurred while registering user"
     });
