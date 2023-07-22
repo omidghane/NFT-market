@@ -9,7 +9,7 @@ const localApi2 = axios.create({
 });
 
 const RegisterPage = () => {
-  const [userId, setUserId] = useState({ id: 0 });
+  
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +30,7 @@ const RegisterPage = () => {
       );
       const signer = ethersProvider.getSigner();
       const address = await signer.getAddress();
-      userId.id++;
+      
       setWallet(address);
     } catch (error) {
       console.error(error);
@@ -53,12 +53,7 @@ const RegisterPage = () => {
       setError("Failed to connect wallet. Please try again.");
       return;
     }
-    // if (isValidEmail == false) {
-    //     setError('Your email is invalid. Please try again.');
-    // }
-    // if (confirmPassword != password) {
-    //     setError('Failed to connect wallet. Please try again.');
-    // }
+    
     if (
       confirmPassword === password &&
       isValidEmail(email) &&
@@ -67,7 +62,6 @@ const RegisterPage = () => {
     ) {
       console.log("password is ok");
       console.log({
-        userId,
         username,
         email,
         password,
@@ -75,7 +69,6 @@ const RegisterPage = () => {
       });
       await localApi2
         .post("/register", {
-          userId,
           username,
           email,
           password,
@@ -88,13 +81,13 @@ const RegisterPage = () => {
         .catch((error) => {
           console.error(error);
         });
-        console.log(result);
-        if(result.status == 'ok'){
-          alert("Success");
-          setError('');
-        } else{
-          setError(result.error);
-        }
+      console.log(result);
+      if (result.status == "ok") {
+        alert("Success");
+        setError("");
+      } else {
+        setError(result.error);
+      }
     } else {
       setError("Invalid form data. Please check your inputs."); // Set the error message
     }
@@ -115,7 +108,6 @@ const RegisterPage = () => {
           </a>
         </div>
         <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-lg sm:rounded-lg">
-          
           <form onSubmit={handleSubmit}>
             <div>
               <label
@@ -185,7 +177,10 @@ const RegisterPage = () => {
                 />
               </div>
             </div>
-            <a href="#" className="text-xs font-bold text-purple-600 hover:underline">
+            <a
+              href="#"
+              className="text-xs font-bold text-purple-600 hover:underline"
+            >
               Forget Password?
             </a>
             {error && <div className="text-red-500 mt-4">{error}</div>}
@@ -198,7 +193,10 @@ const RegisterPage = () => {
           <div className="mt-4 text-grey-600">
             Already have an account?{" "}
             <span>
-              <Link className="text-purple-600 font-bold hover:underline" href="/login">
+              <Link
+                className="text-purple-600 font-bold hover:underline"
+                href="/login"
+              >
                 Log in
               </Link>
             </span>
