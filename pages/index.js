@@ -59,56 +59,6 @@ export default function Home(){
 
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
   return( <>
-  {/* <div className="flex justify-center bg-gray-900">aaaaa
-    <div className="px-4 max-w-screen-xl">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-        {nfts.map((nft, i) => (
-          <div key={i} className="border rounded-xl overflow-hidden shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
-            <img src={nft.image} className="object-cover w-full h-64" />
-            <div className="p-4">
-              <p className="text-2xl font-semibold h-16 overflow-hidden text-gray-100">{nft.name}</p>
-              <div className="h-28 overflow-hidden">
-                <p className="text-gray-400">{nft.description}</p>
-              </div>
-            </div>
-            <div className="p-4 bg-gray-800">
-              <p className="text-2xl font-bold text-white">{nft.price} ETH</p>
-              <button className="w-full mt-4 py-2 px-4 bg-pink-500 hover:bg-pink-700 text-white font-bold rounded" onClick={() => buyNft(nft)}>Buy</button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-
-  <div className="flex justify-center bg-gray-900">
-  <div className="px-4 max-w-screen-lg w-full">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
-      {nfts.map((nft, i) => (
-        <div key={i} className="border rounded-lg overflow-hidden shadow-lg">
-          <div className="relative">
-            <img className="object-cover w-full h-64 " src={nft.image} alt={nft.name} />
-            <div className="absolute top-0 right-0 bg-green-500 text-white px-2 py-1 rounded-bl-lg">
-              {nft.type}
-            </div>
-          </div>
-          <div className="p-4">
-            <h3 className="text-2xl font-bold mb-2 text-gray-100">{nft.name}</h3>
-            <p className="h-28 text-gray-400 overflow-hidden">{nft.description}</p>
-            <p className="text-gray-100 font-bold text-lg mt-2">{nft.price} ETH</p>
-            <button
-              className="bg-pink-500 text-white font-bold py-2 px-4 mt-4 rounded hover:bg-pink-700"
-              onClick={() => buyNft(nft)}
-            >
-              Buy
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</div> */}
-
 <div className="dark bg-gray-900 min-h-screen flex flex-col items-center justify-center">
       <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
