@@ -8,8 +8,8 @@ module.exports = {
     },
 //  unused configuration commented out for now
  ganach: {
-   url: "HTTP://127.0.0.1:7545",
-   accounts: ['0x5c965c48039273343b603d6bbb4a81bac50fd16904d441f905d1ad6e1ada0895']
+   url: "HTTP://127.0.0.1:8545",
+   accounts: ['0x51121fbb472e73e100722441a2a879cd969eff125c3505dae3c3d3db4786e30b']
  }
   },
   solidity: {

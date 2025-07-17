@@ -103,7 +103,7 @@ const RegisterPage = () => {
             <h3 className="text-4xl font-bold text-purple-600">
               {/* <img width={55} height={55} src="https://i.ibb.co/1byZNrV/logo-removebg-preview.png" className='rounded-full ' />
                */}
-              APG Market
+              NFT Market
             </h3>
           </a>
         </div>

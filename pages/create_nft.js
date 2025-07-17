@@ -7,9 +7,8 @@ import { useRouter } from "next/router";
 import Web3Modal from "web3modal";
 
 const IMAGE = "https://i.ibb.co/Ks6zRBK/image-3-2x.jpg"
-const localApi2 = axios.create({
-  baseURL: "http://localhost:2000/",
-});
+
+const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MDE5OGYwZi02YTlhLTRlODMtYTlmYy0zODMzOGQ2MGE1M2IiLCJlbWFpbCI6ImFwZy5hbGkyMDE4MEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMjNhMjQ3ODg0MTFmMTJkOTU5Y2QiLCJzY29wZWRLZXlTZWNyZXQiOiJiNmJkNDM2NGMwNmZhOTE4YzI1NmI0YmRlMTA0MDgyZjUyNDg4MDEzZWZhMmU3YjBjN2IzZTczYjlhMGU5ZTAwIiwiZXhwIjoxNzUxNzMyOTg1fQ.pLSocHlKbYWzYXhA-e_BpLY7XZPKyksgjgBmDKsQaoM"
 
 const INFURA_ID = "2M5kVhxyInmGbzqTv1Ikp44TX4G";
 const INFURA_SECRET_KEY = "383984714260707b00cba3562f76765f";
@@ -40,40 +39,60 @@ export default function CreateItem() {
 
   async function onChange(e) {
     const file = e.target.files[0];
-    
+  
     try {
-      const added = await ipfs.add(file, {
-        progress: (prog) => console.log(`received: ${prog}`),
-      });
-      const url = `https://ipfs.io/ipfs/${added.path}`;
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        formData,
+        {
+          maxBodyLength: "Infinity",
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+            'Authorization': `Bearer ${PINATA_JWT}`
+          },
+        }
+      );
+  
+      const url = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
       setFileUrl(url);
     } catch (error) {
-      console.log("Error uploading file: ", error);
+      console.log("Error uploading file to Pinata: ", error);
     }
   }
+  
   async function uploadToIPFS() {
     const { name, description, price } = formInput;
-    console.log("ttttt", !name || !description || !price || !fileUrl);
-    console.log(name, description, price, fileUrl);
     if (!name || !description || !price || !fileUrl) return;
-    /* first, upload to IPFS */
-    const data = JSON.stringify({
+  
+    const metadata = {
       name,
       description,
       image: fileUrl,
-    });
+    };
+  
     try {
-      const added = await ipfs.add(data);
-      const url = `https://ipfs.io/ipfs/${added.path}`;
-      /* after file is uploaded to IPFS, return the URL to use it in the transaction */
-      console.log("This is ipfs:", url);
-      
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+        metadata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${PINATA_JWT}`
+          },
+        }
+      );
+  
+      const url = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
+      console.log("Uploaded metadata to Pinata IPFS:", url);
       return url;
     } catch (error) {
-      console.log("Error uploading file: ", error, data);
+      console.log("Error uploading metadata to Pinata:", error);
     }
-    console.log("ok");
   }
+  
 
   async function listNFTForSale() {
     const url = await uploadToIPFS();
@@ -98,16 +117,7 @@ export default function CreateItem() {
       value: listingPrice,
     });
     await transaction.wait();
-    await localApi2.post('/createNft', {
-      url, 
-      address: address.toString()
-    }).then((response) => {
-      console.log(response.data);
-      
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    
     router.push("/");
   }
 

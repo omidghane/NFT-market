@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }) {
       <div className="flex items-center">
         {/* <img width={400} height={55} src="https://i.ibb.co/GpQ6fzY/Capture-removebg-preview-removebg-preview-1.png" className='rounded-full ' /> */}
         <a href="#" className="ml-1 flex-shrink-0 text-purple-600 text-3xl">
-          APG Market 
+          NFT Market 
         </a>
         
         <div className="hidden md:block">
