@@ -1,5 +1,5 @@
 # Use Node.js official image
-FROM node:16
+FROM node:22
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies and fix vulnerabilities
-RUN npm install && npm audit fix --force
+RUN npm install
 
 # Copy the rest of the project files
 COPY . .

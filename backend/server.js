@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const User = require("../models/users");
 const bcrypt = require("bcryptjs");
+const axios = require("axios"); // Import axios for HTTP requests
 
 const url = "mongodb://127.0.0.1:27017";
 const dbName = "admin";
@@ -33,13 +34,12 @@ app.use(express.json());
 
 app.post("/register", async (req, res) => {
   console.log(req.body);
-  const { username, password: plainTextPassword, email, wallet } = req.body;
-  const password = await bcrypt.hash(plainTextPassword, 10);
+  const { username, password: plainTextPassword, wallet } = req.body;
 
-  if (!username || typeof username !== "string") {
+  if (!username || typeof username !== "string" || !username.includes("@")) {
     return res.json({
       status: "error",
-      error: "Invalid username",
+      error: "Invalid username. Must be in email format.",
     });
   }
   if (!plainTextPassword || typeof plainTextPassword !== "string") {
@@ -56,33 +56,27 @@ app.post("/register", async (req, res) => {
   }
 
   try {
-    // Check if the username or email already exists in the database
-    const existingUser = await User.findOne({
-      $or: [{ username }, { email }, { wallet }],
+    // Send request to the backend at localhost:8080/accounts/api/register/
+    const response = await axios.post("http://localhost:8080/accounts/api/register/", {
+      username, // Email format
+      password: plainTextPassword,
+      wallet_address: wallet,
     });
 
-    if (existingUser) {
+    if (response.status === 200) {
+      console.log("User registered successfully:", response.data);
+      return res.status(200).json({
+        message: "User registered successfully",
+        status: "ok",
+      });
+    } else {
       return res.json({
         status: "error",
-        error: "Username or email or wallet already exists",
+        error: "Failed to register user",
       });
     }
-
-    // Create a new user since the username and email are unique
-    const newUser = await User.create({
-      username,
-      email,
-      password,
-      wallet,
-    });
-
-    console.log("User created successfully:", newUser);
-    res.status(200).json({
-      message: "User registered successfully",
-      status: "ok",
-    });
   } catch (error) {
-    console.log(error);
+    console.error("Error registering user:", error);
     res.json({
       status: "error",
       error: "An error occurred while registering user",
@@ -94,6 +88,7 @@ app.post("/createNft", async (req, res) => {
   console.log("ok");
   console.log(req.body);
 });
+
 async function startServer() {
   await connectToDatabase();
   app.listen(2000, () => {

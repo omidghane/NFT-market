@@ -1,6 +1,31 @@
 import Link from "next/link";
+import { emit } from "nodemon";
 
 const Login = () => {
+    const handleLogin = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/accounts/api/token/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: email,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Login successful:", data);
+            } else {
+                console.error("Login failed:", response.statusText);
+            }
+        } catch (Loginerror) {
+            console.error("Error during login:", error);
+        }
+    };
+
     return ( 
         <>
                 <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-900">
@@ -25,7 +50,7 @@ const Login = () => {
                                     <input
                                         type="email"
                                         name="email"
-                                        // value={email}
+                                        value={email}
                                         // onChange={(event) => setEmail(event.target.value)}
                                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     />
@@ -42,7 +67,7 @@ const Login = () => {
                                     <input
                                         type="password"
                                         name="password"
-                                        // value={password}
+                                        value={password}
                                         // onChange={(event) => setPassword(event.target.value)}
                                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     />
@@ -56,8 +81,12 @@ const Login = () => {
                                 Forget Password?
                             </a>
                             <div className="flex items-center mt-4">
-                                <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
-                                    Register
+                                <button
+                                    type="button"
+                                    onClick={handleLogin}
+                                    className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+                                >
+                                    Login
                                 </button>
                             </div>
                         </form>
