@@ -8,7 +8,7 @@ import Web3Modal from "web3modal";
 
 const IMAGE = "https://i.ibb.co/Ks6zRBK/image-3-2x.jpg"
 
-const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI3MDE5OGYwZi02YTlhLTRlODMtYTlmYy0zODMzOGQ2MGE1M2IiLCJlbWFpbCI6ImFwZy5hbGkyMDE4MEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMjNhMjQ3ODg0MTFmMTJkOTU5Y2QiLCJzY29wZWRLZXlTZWNyZXQiOiJiNmJkNDM2NGMwNmZhOTE4YzI1NmI0YmRlMTA0MDgyZjUyNDg4MDEzZWZhMmU3YjBjN2IzZTczYjlhMGU5ZTAwIiwiZXhwIjoxNzUxNzMyOTg1fQ.pLSocHlKbYWzYXhA-e_BpLY7XZPKyksgjgBmDKsQaoM"
+const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIxYmI3ZTU3MC1kYjM3LTQwZTgtYjk0Ni1hNDg1ZDJmNTAxNTUiLCJlbWFpbCI6Im9taWRqdDIwMTVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjBlODZhNDA3YmY1NTBiMjg1ODJlIiwic2NvcGVkS2V5U2VjcmV0IjoiMWY0MDViY2MxMGJmNTY2ZmRkYjg1NzNkOTU0N2YwZTFjYWU5NTc1YTI1YzczOWI3Y2U4ODE2ZmJlMDIwNTliNiIsImV4cCI6MTc4NDc0MzU2MX0.DOUWtGRq5JEuzA5BPUA66bXcXK7CnAtB5ub3lWzZ5-k"
 
 const INFURA_ID = "2M5kVhxyInmGbzqTv1Ikp44TX4G";
 const INFURA_SECRET_KEY = "383984714260707b00cba3562f76765f";
@@ -18,13 +18,16 @@ import { marketplaceAddress } from "../config";
 import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 import { env } from "@/next.config";
 export const ipfs = IPFS({
-  host: "ipfs.infura.io",
-  port: 5001,
+  host: "api.pinata.cloud",
+  port: 443,
   protocol: "https",
+  // headers: {
+  //   authorization: `Basic ${Buffer.from(
+  //     `${INFURA_ID}:${INFURA_SECRET_KEY}`
+  //   ).toString("base64")}`,
+  // },
   headers: {
-    authorization: `Basic ${Buffer.from(
-      `${INFURA_ID}:${INFURA_SECRET_KEY}`
-    ).toString("base64")}`,
+    authorization: `Bearer ${PINATA_JWT}`, // Use your Pinata JWT for authentication
   },
 });
 
@@ -91,7 +94,7 @@ export default function CreateItem() {
     } catch (error) {
       console.log("Error uploading metadata to Pinata:", error);
     }
-  }
+  } 
   
 
   async function listNFTForSale() {

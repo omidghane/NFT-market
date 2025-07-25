@@ -8,13 +8,13 @@ module.exports = {
     },
 //  unused configuration commented out for now
  ganach: {
-   url: "HTTP://127.0.0.1:8545",
-   accounts: ['0xeb6f79e34cb2831d07f92d135da0d13e8fc257bedf4a3d7d471ca4559cffe0e2']
+   url: "HTTP://localhost:8545",
+   accounts: ['0xd368dab76224dc07f32429f05715ba3cdceac25e21fb8996e82f67472126a0fc']
  }
   },
   solidity: {
     version: "0.8.17",
-    settings: {
+    settings: { 
       optimizer: {
         enabled: true,
         runs: 200
