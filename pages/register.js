@@ -1,8 +1,10 @@
-import { useState } from "react";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import axios from "axios";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useLogin } from "./LoginContext";
 
 const localApi = axios.create({
   baseURL: "http://localhost:8080/accounts/api/",
@@ -14,6 +16,12 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [wallet, setWallet] = useState("");
   const [error, setError] = useState("");
+  const {setIsLoggedIn} = useLogin();
+  const router = useRouter(); 
+
+  useEffect(() => {
+    connectWallet(); // Try connecting wallet automatically on page load
+  }, []);
 
   const connectWallet = async () => {
     try {
@@ -38,36 +46,70 @@ const RegisterPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const isWalletConnected = await connectWallet();
-    if (!isWalletConnected) {
+
+    // const isWalletConnected = await connectWallet();
+    // if (!isWalletConnected) {
+    //   return;
+    // }
+
+    // if (
+    //   confirmPassword === password &&
+    //   isValidEmail(username) &&
+    //   username !== ""
+    // ) 
+    // {
+
+    if (!wallet) {
+      setError("Wallet not connected.");
+      return;
+    }
+  
+    if (!username || !password || password !== confirmPassword) {
+      setError("Please fill out all fields correctly.");
+      return;
+    }
+  
+    if (!isValidEmail(username)) {
+      setError("Enter a valid email address.");
       return;
     }
 
-    if (
-      confirmPassword === password &&
-      isValidEmail(username) &&
-      username !== ""
-    ) {
-      try {
-        const response = await localApi.post("/register/", {
-          username, // Email format
-          password,
-          wallet_address: wallet,
-        });
+    try {
+      const response = await localApi.post("/register/", {
+        username, // Email format
+        password,
+        wallet_address: wallet,
+      });
 
-        if (response.data.status === "ok") {
-          alert("Registration successful!");
-          setError("");
-        } else {
-          setError(response.data.error || "Failed to register user.");
-        }
-      } catch (error) {
-        console.error(error);
-        setError("An error occurred while registering. Please try again.");
+      if (response.status === 201) {
+        alert("Registration successful!");
+        setError("");
+    
+        // Extract data from the response
+        const data = response.data; // Define `data` as `response.data`
+        const { refresh, access } = data.tokens; // Extract tokens from the response
+        const { refresh_expires_in, access_expires_in } = data; // Extract expiration times
+    
+        console.log("Tokens:", { refresh, access }); // Debugging tokens
+        console.log("Expiration Times:", { refresh_expires_in, access_expires_in }); // Debugging expiration times
+    
+        // Update login state and store tokens with expiration times
+        setIsLoggedIn(true, refresh, access, refresh_expires_in, access_expires_in);
+    
+        // Redirect to My NFTs page
+        router.push("/my-nfts");
+      } else {
+        console.log("Registration failed:", response.status);
+        console.error(response.error || "Failed to register user.");
+        setError(response.error || "Failed to register user.");
       }
-    } else {
-      setError("Invalid form data. Please check your inputs.");
+    } catch (error) {
+      console.error(error);
+      setError("An error occurred while registering. Please try again.");
     }
+    // } else {
+    //   setError("Invalid form data. Please check your inputs.");
+    // }
   };
 
   return (

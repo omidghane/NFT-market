@@ -26,11 +26,22 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log("Login successful:", data);
-                const { refresh_expires_in } = data; // Extract refresh expiration time
-                setIsLoggedIn(true, refresh_expires_in); // Update login state and store expiration time
-                router.push("/dashboard"); // Redirect to My NFTs page
+    
+                // Extract tokens and expiration times directly from the response
+                const { refresh, access, refresh_expires_in, access_expires_in } = data;
+    
+                console.log("Tokens:", { refresh, access }); // Debugging tokens
+                console.log("Expiration Times:", { refresh_expires_in, access_expires_in }); // Debugging expiration times
+    
+                // Update login state and store tokens with expiration times
+                setIsLoggedIn(true, refresh, access, refresh_expires_in, access_expires_in);
+    
+                // Redirect to My NFTs page
+                router.push("/my-nfts");
             } else {
-                console.error("Login failed:", response.statusText);
+                const errorData = await response.json();
+                console.error("Login failed:", errorData);
+                setError(errorData.message || "Invalid username or password. Please try again.");
             }
         } catch (error) {
             console.error("Error during login:", error);

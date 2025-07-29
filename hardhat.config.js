@@ -9,7 +9,7 @@ module.exports = {
 //  unused configuration commented out for now
  ganach: {
    url: "HTTP://localhost:8545",
-   accounts: ['0xd368dab76224dc07f32429f05715ba3cdceac25e21fb8996e82f67472126a0fc']
+   accounts: ['0xab2f97e392e7c753bf9fc636e647341f0f47630b963bafa218065bf5eddd31e0']
  }
   },
   solidity: {
