@@ -2,17 +2,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useLogin } from "./LoginContext";
-// import { emit } from "nodemon";
+import { useWallet } from "./WalletContext";
+import config from "../config";
 
 const Login = () => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
+    const {walletAddress, setWalletAddress} = useWallet(""); 
     const {setIsLoggedIn} = useLogin(); // Track login state
     const router = useRouter(); // Next.js router for navigation
 
     const handleLogin = async () => {
         try {
-            const response = await fetch("http://localhost:8080/accounts/api/token/", {
+            const response = await fetch(`${config.baseURL}/accounts/api/token/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -20,6 +22,7 @@ const Login = () => {
                 body: JSON.stringify({
                     username: username,
                     password: password,
+                    wallet_address: walletAddress,
                 }),
             });
 
@@ -28,7 +31,7 @@ const Login = () => {
                 console.log("Login successful:", data);
     
                 // Extract tokens and expiration times directly from the response
-                const { refresh, access, refresh_expires_in, access_expires_in } = data;
+                const { refresh, access, refresh_expires_in, access_expires_in, user } = data;
     
                 console.log("Tokens:", { refresh, access }); // Debugging tokens
                 console.log("Expiration Times:", { refresh_expires_in, access_expires_in }); // Debugging expiration times
@@ -40,6 +43,7 @@ const Login = () => {
                 router.push("/my-nfts");
             } else {
                 const errorData = await response.json();
+                alert("Login failed: " + (errorData.error || "Invalid username or password. Please try again."));
                 console.error("Login failed:", errorData);
                 setError(errorData.message || "Invalid username or password. Please try again.");
             }

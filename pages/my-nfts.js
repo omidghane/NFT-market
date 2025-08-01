@@ -50,9 +50,39 @@ export default function MyAssets() {
     setNfts(items);
     setLoadingState("loaded");
   }
-  function listNFT(nft) {
+  async function listNFT(nft) {
     router.push(`/resell-nft?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`);
+    // removeFromBack();
+
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+          console.error("Access token is missing. Please log in.");
+          return;
+      }
+
+      const response = await fetch("http://127.0.0.1:8080/nft/remove/", {
+          method: "DELETE",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${accessToken}`, // Send the access token in the Authorization header
+          },
+          body: JSON.stringify({
+              token_id: nft.tokenId, // Pass the token_id in the request body
+          }),
+      });
+
+      if (response.ok) {
+          console.log(`NFT with token_id ${nft.tokenId} successfully removed from the backend.`);
+      } else {
+          const errorData = await response.json();
+          console.error("Failed to remove NFT from the backend:", errorData);
+      }
+    } catch (error) {
+        console.error("Error while removing NFT from the backend:", error);
+    }
   }
+  
   if (loadingState === "loaded" && !nfts.length)
     return (
       <div className="py-96 px-20 text-3xl bg-gray-900 text-white text-center">

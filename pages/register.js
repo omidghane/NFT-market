@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLogin } from "./LoginContext";
+import { useWallet } from "./WalletContext";
 
 const localApi = axios.create({
   baseURL: "http://localhost:8080/accounts/api/",
@@ -14,7 +15,7 @@ const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [wallet, setWallet] = useState("");
+  const {walletAddress, setWalletAddress} = useWallet("");
   const [error, setError] = useState("");
   const {setIsLoggedIn} = useLogin();
   const router = useRouter(); 
@@ -30,7 +31,7 @@ const RegisterPage = () => {
       const ethersProvider = new ethers.providers.Web3Provider(selectedProvider);
       const signer = ethersProvider.getSigner();
       const address = await signer.getAddress();
-      setWallet(address);
+      setWalletAddress(address);
     } catch (error) {
       console.error(error);
       setError("Failed to connect wallet. Please try again.");
@@ -47,19 +48,7 @@ const RegisterPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // const isWalletConnected = await connectWallet();
-    // if (!isWalletConnected) {
-    //   return;
-    // }
-
-    // if (
-    //   confirmPassword === password &&
-    //   isValidEmail(username) &&
-    //   username !== ""
-    // ) 
-    // {
-
-    if (!wallet) {
+    if (!walletAddress) {
       setError("Wallet not connected.");
       return;
     }
@@ -78,7 +67,7 @@ const RegisterPage = () => {
       const response = await localApi.post("/register/", {
         username, // Email format
         password,
-        wallet_address: wallet,
+        wallet_address: walletAddress,
       });
 
       if (response.status === 201) {

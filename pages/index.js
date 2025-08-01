@@ -8,13 +8,15 @@ import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketp
 import { useLogin } from "./LoginContext";
 
 export default function Home(){
-  const { refreshAccessToken } = useLogin();
+  const { isLoggedIn, refreshAccessToken } = useLogin();
   const [nfts, setNfts] = useState([
     // { name: "NFT 1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eleifend est a ipsum tempor fringilla. Praesent id mi at velit commodo dictum non eu velit. Donec vel elit luctus, volutpat mi sit amet, auctor sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus posuere fermentum est, a rhoncus urna bibendum quis. Cras malesuada varius metus, nec tincidunt metus semper ac. Quisque risus arcu, gravida eget tellus id, tristique eleifend metus. Aliquam semper luctus dui ut faucibus. Nam euismod imperdiet nisi, ac aliquet eros pellentesque vel. Ut viverra sed tellus dignissim cursus. Ut dignissim accumsan ligula, et efficitur odio egestas non. Nulla feugiat enim eu tellus auctor fringilla eu eget neque. Aliquam purus neque, dignissim posuere arcu ut, egestas laoreet risus.", price: "0.1", image: "https://i.ibb.co/j6MxBbT/nft-image-1.png" },
     // { name: "NFT 2", description: "This is the second NFT", price: "0.2", image: "https://i.ibb.co/rM1g0TN/nft-image-2.png" },
     // { name: "NFT 3", description: "This is the third NFT", price: "0.3", image: "https://i.ibb.co/x2dnR6b/nft-image-3.png" },
   ])
   const [loadingState, setLoadingState] = useState('not-loaded')
+  const [error, setError] = useState(""); 
+
   useEffect(()=>{
     loadNFTs();
   }, [])
@@ -46,6 +48,11 @@ export default function Home(){
   }
 
   async function buyNft(nft){
+    if (!isLoggedIn) {
+      setError("You must be logged in to buy an NFT.");
+      alert(error); // Show alert with error message
+      return;
+    }
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);

@@ -6,6 +6,8 @@ import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 import RegisterPage from "./register";
 import ConnectWallet from "./connectWalet";
 import { LoginProvider, useLogin } from "./LoginContext";
+import { WalletProvider } from "./WalletContext";
+
 
 function App({ Component, pageProps }) {
   const [sideBar, setSideBar] = useState("hidden md:hidden");
@@ -17,6 +19,7 @@ function App({ Component, pageProps }) {
     }
   };
   return (
+    <WalletProvider>
     <LoginProvider>
       <div className="flex flex-col min-h-screen">
         <nav className="bg-gray-800 py-20 ">
@@ -159,6 +162,7 @@ function App({ Component, pageProps }) {
         </footer>
       </div>
     </LoginProvider>
+    </WalletProvider>
   );
 }
 
