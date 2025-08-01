@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLogin } from "./LoginContext";
 import { useWallet } from "./WalletContext";
+import config from "../config";
 
 const localApi = axios.create({
-  baseURL: "http://localhost:8080/accounts/api/",
+  baseURL: `${config.baseURL}/accounts/api/`,
 });
 
 const RegisterPage = () => {

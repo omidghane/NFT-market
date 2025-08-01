@@ -6,6 +6,7 @@ import Web3Modal from 'web3modal'
 import { marketplaceAddress } from '../config'
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 import { useLogin } from "./LoginContext";
+import config from "../config";
 
 export default function Home(){
   const { isLoggedIn, refreshAccessToken } = useLogin();
@@ -81,7 +82,7 @@ export default function Home(){
     });
 
     // Step 3: Make a POST request to the backend API
-    const response = await fetch("http://127.0.0.1:8080/nft/add/", {
+    const response = await fetch(`${config.baseURL}/nft/add/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

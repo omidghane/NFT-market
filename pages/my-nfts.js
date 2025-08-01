@@ -5,6 +5,7 @@ import Web3Modal from "web3modal";
 import { useRouter } from "next/router";
 
 import { marketplaceAddress } from "../config";
+import config from "../config";
 
 import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
 
@@ -61,7 +62,7 @@ export default function MyAssets() {
           return;
       }
 
-      const response = await fetch("http://127.0.0.1:8080/nft/remove/", {
+      const response = await fetch(`${config.baseURL}/nft/remove/`, {
           method: "DELETE",
           headers: {
               "Content-Type": "application/json",

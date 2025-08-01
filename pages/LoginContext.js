@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import config from "../config";
 
 const LoginContext = createContext();
 
@@ -64,7 +65,7 @@ export const LoginProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8080/accounts/api/token/refresh/", {
+      const response = await fetch(`${config.baseURL}/accounts/api/token/refresh/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
