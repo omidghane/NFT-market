@@ -5,12 +5,14 @@ import Web3Modal from 'web3modal'
 
 import { marketplaceAddress } from '../config'
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+import { useLogin } from "./LoginContext";
 
 export default function Home(){
+  const { refreshAccessToken } = useLogin();
   const [nfts, setNfts] = useState([
-    { name: "NFT 1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eleifend est a ipsum tempor fringilla. Praesent id mi at velit commodo dictum non eu velit. Donec vel elit luctus, volutpat mi sit amet, auctor sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus posuere fermentum est, a rhoncus urna bibendum quis. Cras malesuada varius metus, nec tincidunt metus semper ac. Quisque risus arcu, gravida eget tellus id, tristique eleifend metus. Aliquam semper luctus dui ut faucibus. Nam euismod imperdiet nisi, ac aliquet eros pellentesque vel. Ut viverra sed tellus dignissim cursus. Ut dignissim accumsan ligula, et efficitur odio egestas non. Nulla feugiat enim eu tellus auctor fringilla eu eget neque. Aliquam purus neque, dignissim posuere arcu ut, egestas laoreet risus.", price: "0.1", image: "https://i.ibb.co/j6MxBbT/nft-image-1.png" },
-    { name: "NFT 2", description: "This is the second NFT", price: "0.2", image: "https://i.ibb.co/rM1g0TN/nft-image-2.png" },
-    { name: "NFT 3", description: "This is the third NFT", price: "0.3", image: "https://i.ibb.co/x2dnR6b/nft-image-3.png" },
+    // { name: "NFT 1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eleifend est a ipsum tempor fringilla. Praesent id mi at velit commodo dictum non eu velit. Donec vel elit luctus, volutpat mi sit amet, auctor sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus posuere fermentum est, a rhoncus urna bibendum quis. Cras malesuada varius metus, nec tincidunt metus semper ac. Quisque risus arcu, gravida eget tellus id, tristique eleifend metus. Aliquam semper luctus dui ut faucibus. Nam euismod imperdiet nisi, ac aliquet eros pellentesque vel. Ut viverra sed tellus dignissim cursus. Ut dignissim accumsan ligula, et efficitur odio egestas non. Nulla feugiat enim eu tellus auctor fringilla eu eget neque. Aliquam purus neque, dignissim posuere arcu ut, egestas laoreet risus.", price: "0.1", image: "https://i.ibb.co/j6MxBbT/nft-image-1.png" },
+    // { name: "NFT 2", description: "This is the second NFT", price: "0.2", image: "https://i.ibb.co/rM1g0TN/nft-image-2.png" },
+    // { name: "NFT 3", description: "This is the third NFT", price: "0.3", image: "https://i.ibb.co/x2dnR6b/nft-image-3.png" },
   ])
   const [loadingState, setLoadingState] = useState('not-loaded')
   useEffect(()=>{
@@ -35,6 +37,7 @@ export default function Home(){
         owner: i.owner,
         image: meta.data.image,
         description: meta.data.description,
+        name: meta.data.name,
       }
       return item
     }))
@@ -54,6 +57,45 @@ export default function Home(){
     const transaction = await contract.createMarketSale(nft.tokenId , { value: price });
     
     await transaction.wait();
+
+    // Step 2: Get the access token from localStorage
+    const accessToken = await refreshAccessToken();
+    if (!accessToken) {
+        console.error("Access token is missing. Please log in.");
+        return;
+    }
+
+    console.log("Preparing to send NFT info to backend:");
+    console.log({
+        token_id: nft.tokenId,
+        name: nft.name || "Unnamed NFT", // Use a default name if not provided
+        image_url: nft.image,
+        metadata: nft.description,
+    });
+
+    // Step 3: Make a POST request to the backend API
+    const response = await fetch("http://127.0.0.1:8080/nft/add/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`, // Send the access token in the Authorization header
+        },
+        body: JSON.stringify({
+            token_id: nft.tokenId,
+            name: nft.name || "Unnamed NFT", // Use a default name if not provided
+            image_url: nft.image,
+            metadata: nft.description,
+        }),
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log("NFT successfully added to the backend:", data);
+    } else {
+        const errorData = await response.json();
+        console.error("Failed to add NFT to the backend:", errorData);
+    }
+
     loadNFTs();
   }
 
