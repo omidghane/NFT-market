@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001');
+const socket = io('http://62.60.198.61:3001');
 
 function TicTacToe() {
   const [board, setBoard] = useState(new Array(9).fill('')); // represents the Tic Tac Toe board

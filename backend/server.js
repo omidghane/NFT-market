@@ -6,7 +6,7 @@ const User = require("../models/users");
 const bcrypt = require("bcryptjs");
 const axios = require("axios"); // Import axios for HTTP requests
 
-const url = "mongodb://127.0.0.1:27017";
+const url = "mongodb://62.60.198.61:27017";
 const dbName = "admin";
 
 const mongooseOptions = {
@@ -25,7 +25,7 @@ async function connectToDatabase() {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://62.60.198.61:3000",
     optionsSuccessStatus: 200,
   })
 );
@@ -57,7 +57,7 @@ app.post("/register", async (req, res) => {
 
   try {
     // Send request to the backend at localhost:8080/accounts/api/register/
-    const response = await axios.post("http://localhost:8080/accounts/api/register/", {
+    const response = await axios.post("http://62.60.198.61:8080/accounts/api/register/", {
       username, // Email format
       password: plainTextPassword,
       wallet_address: wallet,

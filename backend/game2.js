@@ -64,7 +64,7 @@ const TicTacToe = () => {
   };
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io("http://62.60.198.61:3001");
     setSocket(newSocket);
 
     newSocket.on('connect', () => {

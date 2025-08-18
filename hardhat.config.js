@@ -8,7 +8,7 @@ module.exports = {
     },
 //  unused configuration commented out for now
  ganach: {
-   url: "HTTP://62.60.198.61:8545",
+   url: "http://62.60.198.61:8545",
    accounts: ['0xd368dab76224dc07f32429f05715ba3cdceac25e21fb8996e82f67472126a0fc']
  }
   },

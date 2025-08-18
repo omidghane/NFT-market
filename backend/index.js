@@ -6,12 +6,12 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://62.60.198.61:3000',
   optionsSuccessStatus: 200
 }));
 
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: '62.60.198.61',
   user: 'root',
   password: '98154022.Ali',
   database: 'gamemarket'  

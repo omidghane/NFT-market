@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // Define the connection URL and options
 // const url = 'mongodb://localhost:27017'; // Replace with the appropriate MongoDB connection string if needed
-const url = 'mongodb://127.0.0.1:27017';
+const url = 'mongodb://62.60.198.61:27017';
 
 
 const dbName = 'admin';
