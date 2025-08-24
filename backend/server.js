@@ -25,7 +25,7 @@ async function connectToDatabase() {
 
 app.use(
   cors({
-    origin: "https://rushmarketgame.sbs",
+    origin: 'http://62.60.198.61:3000',
     optionsSuccessStatus: 200,
   })
 );
