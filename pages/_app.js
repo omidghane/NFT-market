@@ -5,8 +5,8 @@ import Image from "next/image";
 import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 import RegisterPage from "./register";
 import ConnectWallet from "./connectWalet";
-import { LoginProvider, useLogin } from "./LoginContext";
-import { WalletProvider } from "./WalletContext";
+import { LoginProvider, useLogin } from "../contexts/LoginContext";
+import { WalletProvider } from "../contexts/WalletContext";
 
 
 function App({ Component, pageProps }) {
