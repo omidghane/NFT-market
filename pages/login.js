@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useLogin } from "./LoginContext";
-import { useWallet } from "./WalletContext";
+import { useLogin } from "../contexts/LoginContext";
+import { useWallet } from "../contexts/WalletContext";
 import config from "../config";
 
 const Login = () => {

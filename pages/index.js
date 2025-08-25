@@ -5,7 +5,7 @@ import Web3Modal from 'web3modal'
 
 import { marketplaceAddress } from '../config'
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
-import { useLogin } from "./LoginContext";
+import { useLogin } from "../contexts/LoginContext";
 import config from "../config";
 
 export default function Home(){

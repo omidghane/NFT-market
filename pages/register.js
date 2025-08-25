@@ -4,8 +4,8 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useLogin } from "./LoginContext";
-import { useWallet } from "./WalletContext";
+import { useLogin } from "../contexts/LoginContext";
+import { useWallet } from "../contexts/WalletContext";
 import config from "../config";
 
 const localApi = axios.create({
