@@ -23,7 +23,7 @@ export default function Home(){
   }, [])
 
   async function loadNFTs(){
-    const provider = new ethers.providers.JsonRpcProvider('https://ganache.rushmarketgame.sbs')
+    const provider = new ethers.providers.JsonRpcProvider('https://ganache.rushmarketgame.sbs/')
     const contract = new ethers.Contract(marketplaceAddress,NFTMarketplace.abi , provider);
     const data = await contract.fetchMarketItems();
 

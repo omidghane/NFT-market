@@ -24,9 +24,8 @@
 
 ## production
 
-# Use Node.js official image
+# ---- Builder ----
 FROM node:22 AS builder
-
 WORKDIR /app
 
 # Copy dependency files
@@ -41,15 +40,18 @@ COPY . .
 # Build the Next.js app
 RUN npm run build
 
-# ---- Production image ----
+# ---- Production runner ----
 FROM node:22 AS runner
 WORKDIR /app
 
-# Copy only the build output and node_modules
+# Set production environment
+ENV NODE_ENV=production
+
+# Copy build and dependencies
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
-# Run Next.js in production mode
+# Start the app
 CMD ["npm", "run", "start"]
