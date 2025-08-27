@@ -31,8 +31,8 @@ WORKDIR /app
 # Copy dependency files
 COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm install
+# Install ALL deps including devDependencies
+RUN npm install --production=false
 
 # Copy project files
 COPY . .
@@ -42,16 +42,19 @@ RUN npm run build
 
 # ---- Production runner ----
 FROM node:22 AS runner
+
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV=production
+# Copy only needed files
+COPY package.json package-lock.json ./
 
-# Copy build and dependencies
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/node_modules ./node_modules
+# Install only production deps
+RUN npm install --omit=dev
+
+# Copy build output
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
 
-# Start the app
+# Start Next.js
 CMD ["npm", "run", "start"]
